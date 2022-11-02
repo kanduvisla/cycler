@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include "test.h"
 
 // All notes are coming in on one MIDI channel
 // These are then spread out over multiple MIDI out channels, dropping velocity first
@@ -22,11 +21,5 @@ unsigned char ch6_note_out = 0;
 unsigned char ch6_vel_out = 0;
 
 int main(void) {
-    run_tests();
     return 0;
-}
-
-// Single MIDI tick
-void tick() {
-
 }

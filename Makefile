@@ -1,12 +1,14 @@
 # Compile the Cycler code:
-cycler.o:
+cycler.o: cycler.c
 	gcc -c cycler.c
 
 # Compile the test code, only if test does not exist, or cycler.o is newer than test:
-test: cycler.o
+test: cycler.o test.c
 	gcc -c test.c
-	gcc -o test cycler.o test.o
-
+	gcc -Wall -o test test.o cycler.o
+	./test
+	make clean
+	
 # Run the tests:
 run_test:
 	./test
@@ -19,4 +21,4 @@ main: cycler.o
 # Clean up:
 clean:
 	rm *.o
-	rm test
+	rm -f test
