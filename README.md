@@ -37,4 +37,4 @@ tbd
 
 ## License
 
-See the <LICENSE> file.
+See the LICENSE file.
