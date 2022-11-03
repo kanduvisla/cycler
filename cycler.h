@@ -7,6 +7,6 @@
 void cycler_tick();
 
 // Get the channel used for polyphony. Channels with lower velocity are dropped first
-byte cycler_get_next_polyphony_channel(byte channel, byte velocity);
+byte cycler_get_next_polyphony_channel();
 
 #endif

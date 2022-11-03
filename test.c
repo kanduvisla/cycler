@@ -13,7 +13,7 @@
 
 void assert(byte x, byte y, char* message) {
     if (x != y) {
-        printf("%s", message);
+        printf("\033[0;31mFAIL:\033[0m expected %u, got %u \033[0;34m(%s)\033[0m\n", x, y, message);
     } else {
         printf(".");
     }
@@ -22,11 +22,12 @@ void assert(byte x, byte y, char* message) {
 // MARK: --- Test cases for Cycler
 
 void test_polyphony() {
-    // Setup:
+    // Scenario #1: First note returns first free channel (fresh setup)
+    byte expectedOutputChannel = 6;
+    byte result = cycler_get_next_polyphony_channel();
+    assert(expectedOutputChannel, result, "incorrect output channel");
 
-    // Exercise:
-
-    // Verify:
+    // Scenario #2: Some notes are played:
     
 }
 
@@ -34,5 +35,6 @@ void test_polyphony() {
 
 int main(void) {
     test_polyphony();
+    printf("\n");
     return 0;
 }
