@@ -21,9 +21,18 @@ uint16_t idleTicks[6] = {0};
 // Increase the idle counter on the channels
 static void increase_idle_counter() {
     for (int channel = 0; channel < 6; channel += 1) {
-        if (notePlaying[channel] == true) {
+        if (notePlaying[channel] == false) {
             idleTicks[channel] += 1;
         }
+    }
+}
+
+void cycler_reset() {
+    for (byte channel = 0; channel < 6; channel += 1) {
+        notes[channel] = 0;
+        notePlaying[channel] = false;
+        velocity[channel] = 0;
+        idleTicks[channel] = 0;
     }
 }
 
@@ -32,10 +41,11 @@ void cycler_tick() {
     increase_idle_counter();
 }
 
+// Get the next polyphony channel
 byte cycler_get_next_polyphony_channel() {
     byte count = 0;
     byte returnChannel = 0;
-    int channel = 0;
+    byte channel = 0;
 
     // First filter out channels that are not playing a note:
     for (channel = 0; channel < 6; channel += 1) {
@@ -75,4 +85,25 @@ byte cycler_get_next_polyphony_channel() {
 
     // This will never happen:
     return returnChannel;
+}
+
+// Register a note on with cycler
+void cycler_note_on(byte note, byte vel, byte channel) {
+    notePlaying[channel - 1] = true;
+    notes[channel - 1] = note;
+    velocity[channel - 1] = vel;
+    idleTicks[channel - 1] = 0;
+}
+
+// Register a note off with cycler
+void cycler_note_off(byte note) {
+    for (byte channel = 0; channel < 6; channel += 1) {
+        if (notes[channel] == note) {
+            notePlaying[channel] = false;
+            notes[channel] = 0;
+            velocity[channel] = 0;
+            idleTicks[channel] = 0;
+            return;
+        }
+    }
 }
