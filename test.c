@@ -13,7 +13,7 @@
 
 void assert(byte x, byte y, char* message) {
     if (x != y) {
-        printf("\033[0;31mFAIL:\033[0m expected %u, got %u \033[0;34m(%s)\033[0m\n", x, y, message);
+        printf("\n\033[0;31mFAIL:\033[0m expected %u, got %u \033[0;34m(%s)\033[0m\n", x, y, message);
     } else {
         printf(".");
     }
@@ -27,6 +27,7 @@ static void test_polyphony_channel(byte expectedChannel) {
     cycler_reset();
 }
 
+// Polyphony testing
 void test_polyphony() {
     // Scenario #1: First note returns first free channel (fresh setup)
     test_polyphony_channel(6);

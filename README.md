@@ -19,6 +19,14 @@ This mode will re-route incoming midi signals on channel 1 to channel 1-6 depend
 - If more than 1 channel is free: which one has been free the longest (to mess as little as possible with long decay tails).
 - If all channels are occupied: sacrifice the channel that currently is playing with the lowest velocity.
 
+#### Usage
+
+Make use of the [standard Arduino Midi library](https://github.com/FortySevenEffects/arduino_midi_library) and place the Cycler code in-between:
+
+```c
+// Example code follows soon
+```
+
 ### 2. 3/3 Voice polyphony
 
 This is the same as the 6-Voice polyphony, only with the keybed divided on the center note (C5 by default). Everything below that note is (polyphonicly) divided over channel 1 to 3, everything from that note and higher is divided over channel 4 to 6.
@@ -33,8 +41,12 @@ This is the same as 3/3 voice polyphony, with the only difference that everythin
 
 ## Contributing
 
-tbd
+If you want to contribute, feel free to fork and create a pull request.
+
+### Testing
+
+To be honest, this is my first real C project, so I don't have experience with default C unit-test frameworks. I do however have a test target with some test code that validates certain stuff. You can test the code by running `make test`. If you want to add extra tests, just edit the [test.c](test.c) file.
 
 ## License
 
-See the LICENSE file.
+See the [LICENSE](LICENSE) file.
