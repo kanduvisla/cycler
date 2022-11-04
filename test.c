@@ -33,34 +33,34 @@ void test_polyphony() {
     test_polyphony_channel(6);
 
     // Scenario #2: A note is played on channel 6:
-    cycler_note_on(60, 100, 6);
+    cycler_note_on(60, 100);
     test_polyphony_channel(5);
 
     // Scenario #3: A note is played on channel 5 & 6:
-    cycler_note_on(50, 100, 5);
-    cycler_note_on(60, 100, 6);
+    cycler_note_on(50, 100);
+    cycler_note_on(60, 100);
     test_polyphony_channel(4);
 
-    // Scenario #4: Only channel 3 is free:
-    cycler_note_on(10, 100, 1);
-    cycler_note_on(20, 100, 2);
-    cycler_note_on(40, 100, 4);
-    cycler_note_on(50, 100, 5);
-    cycler_note_on(60, 100, 6);
-    test_polyphony_channel(3);
+    // Scenario #4: Only channel 1 is free:
+    cycler_note_on(10, 100);
+    cycler_note_on(20, 100);
+    cycler_note_on(40, 100);
+    cycler_note_on(50, 100);
+    cycler_note_on(60, 100);
+    test_polyphony_channel(1);
     
     // Scenario #5: Channel 1 & 6 are used, channel 4 has the longest idle time
-    cycler_note_on(10, 100, 1);
+    cycler_note_on(10, 100);
     cycler_tick();
-    cycler_note_on(60, 100, 6);
+    cycler_note_on(60, 100);
     cycler_tick();
-    cycler_note_on(20, 100, 2);
+    cycler_note_on(20, 100);
     cycler_tick();
-    cycler_note_on(30, 100, 3);
+    cycler_note_on(30, 100);
     cycler_tick();
-    cycler_note_on(40, 100, 4);
+    byte channelNote4 = cycler_note_on(40, 100);
     cycler_tick();
-    cycler_note_on(50, 100, 5);
+    cycler_note_on(50, 100);
     cycler_tick();
     // The channel that plys note 4 goes off first:
     cycler_note_off(40);
@@ -71,7 +71,7 @@ void test_polyphony() {
     cycler_tick();
     cycler_note_off(20);
     cycler_tick();
-    test_polyphony_channel(4);
+    test_polyphony_channel(channelNote4);
 }
 
 // MARK: --- Main application

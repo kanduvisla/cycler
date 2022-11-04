@@ -24,7 +24,45 @@ This mode will re-route incoming midi signals on channel 1 to channel 1-6 depend
 Make use of the [standard Arduino Midi library](https://github.com/FortySevenEffects/arduino_midi_library) and place the Cycler code in-between:
 
 ```c
-// Example code follows soon
+// WIP / Not tested yet:
+void handleNoteOn(byte inChannel, byte inNote, byte inVelocity)
+{
+    // Register our note with Cycler.
+    // Cycler will give us the next free channel, that we can use to pass the information through:
+    byte channel = cycler_note_on(inNote, inVelocity, channel);
+    // TODO: Check if this does not result in an infinite loop:
+    MIDI.sendNoteOn(inNote, inVelocity, channel);
+}
+
+void handleNoteOff(byte inChannel, byte inNote, byte inVelocity)
+{
+    // If it's a note off, we need to inform cycler that there is a note off.
+    // Cycler will return the channel that was assigned, so we can pass it through:
+    byte channel = cycler_note_off(inNote);
+    // TODO: Check if this does not result in an infinite loop:
+    MIDI.sendNoteOff(inNote, inVelocity, channel);
+}
+
+void setup()
+{
+    // Register note handlers
+    MIDI.setHandleNoteOn(handleNoteOn);
+    MIDI.setHandleNoteOff(handleNoteOff);
+    // Launch MIDI, listening to channel 1.
+    MIDI.begin(1);
+}
+
+void loop()
+{
+    if (MIDI.read()) {
+        switch(MIDI.getType()) {
+            case midi::Clock:       
+                // If it is a Clock tick, we need to inform Cycler that there has been a clock tick.
+                cycler_tick();
+                break;
+        }
+    }
+}
 ```
 
 ### 2. 3/3 Voice polyphony

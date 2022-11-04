@@ -88,22 +88,26 @@ byte cycler_get_next_polyphony_channel() {
 }
 
 // Register a note on with cycler
-void cycler_note_on(byte note, byte vel, byte channel) {
+byte cycler_note_on(byte note, byte vel) {
+    byte channel = cycler_get_next_polyphony_channel();
+
     notePlaying[channel - 1] = true;
     notes[channel - 1] = note;
     velocity[channel - 1] = vel;
     idleTicks[channel - 1] = 0;
+
+    return channel;
 }
 
-// Register a note off with cycler
-void cycler_note_off(byte note) {
+// Register a note off with cycler and return the channel that was used
+byte cycler_note_off(byte note) {
     for (byte channel = 0; channel < 6; channel += 1) {
         if (notes[channel] == note) {
             notePlaying[channel] = false;
             notes[channel] = 0;
             velocity[channel] = 0;
             idleTicks[channel] = 0;
-            return;
+            return channel;
         }
     }
 }
