@@ -72,12 +72,27 @@ void test_polyphony() {
     cycler_note_off(20);
     cycler_tick();
     test_polyphony_channel(channelNote4);
+    cycler_reset();
+}
+
+// Test 3/3 polyphony
+void test_polyphony_3_3() {
+    // Scenario #1: note below C5 returns channel 3, note above C5 returns channel 6
+    // C5=byte 60
+    cycler_reset();
+    byte channelNote1 = cycler_note_on(48, 100); // 48 = C4
+    byte channelNote2 = cycler_note_on(60, 100); // 60 = C5
+    byte expectedChannel1 = 3;
+    byte expectedChannel2 = 6;
+    assert(expectedChannel1, channelNote1, "C4 should play on channel 3");
+    assert(expectedChannel2, channelNote2, "C5 should play on channel 6");
 }
 
 // MARK: --- Main application
 
 int main(void) {
     test_polyphony();
+    test_polyphony_3_3();    
     printf("\n");
     return 0;
 }

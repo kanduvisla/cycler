@@ -3,6 +3,9 @@
 
 #include "definitions.h"
 
+// Set the mode to run Cycler in
+void cycler_set_mode(int mode);
+
 // Reset everything
 void cycler_reset();
 

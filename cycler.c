@@ -18,6 +18,10 @@ byte velocity[6] = {0};
 // The amount of idle ticks. When a channel is not playing a note, the channel that has been off the longest has the highest preference
 uint16_t idleTicks[6] = {0};
 
+static int cycler_mode = CYCLER_MODE_6_POLY;
+static int cycler_start_channel = 1;
+static int cycler_end_channel = 6;
+
 // Increase the idle counter on the channels
 static void increase_idle_counter() {
     for (int channel = 0; channel < 6; channel += 1) {
@@ -27,6 +31,12 @@ static void increase_idle_counter() {
     }
 }
 
+// Set the mode to run Cycler in
+void cycler_set_mode(int mode) {
+    cycler_mode = mode;
+}
+
+// Reset cycler
 void cycler_reset() {
     for (byte channel = 0; channel < 6; channel += 1) {
         notes[channel] = 0;
@@ -87,7 +97,7 @@ byte cycler_get_next_polyphony_channel() {
     return returnChannel;
 }
 
-// Register a note on with cycler
+// Register a note on with cycler and return the channel that was used
 byte cycler_note_on(byte note, byte vel) {
     byte channel = cycler_get_next_polyphony_channel();
 
@@ -110,4 +120,7 @@ byte cycler_note_off(byte note) {
             return channel;
         }
     }
+    
+    // Should not happen:
+    return 1;
 }
