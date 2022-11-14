@@ -15,6 +15,9 @@ void cycler_tick();
 // Get the channel used for polyphony. Channels with lower velocity are dropped first
 byte cycler_get_next_polyphony_channel();
 
+// Get the channel used for polyphony with a given start- and end-channel. Channels with lower velocity are dropped first
+byte cycler_get_next_polyphony_channel_se(byte startChannel, byte endChannel);
+
 // Register a note on with Cycler, it will return the channel that needs to be used
 byte cycler_note_on(byte note, byte vel);
 
