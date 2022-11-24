@@ -13,6 +13,9 @@ This is written with the Elektron Model: Cycles in mind, but basically it will w
 3. 3/1 Voice polyphony
 4. 4-Voice polyphony
 5. 4/1 Voice polyphony
+6. 1/1 Delay
+7. 2/2 Delay
+8. 3/3 Delay
 
 ### 6 Voice polyphony
 
@@ -26,14 +29,18 @@ This mode will re-route incoming midi signals on channel 1 to channel 1-6 depend
 
 Make use of the [standard Arduino Midi library](https://github.com/FortySevenEffects/arduino_midi_library) and place the Cycler code in-between:
 
-```c
-// WIP / Not tested yet:
+```cpp
+#include <cycler.h>
+#include <MIDI.h>
+
+MIDI_CREATE_DEFAULT_INSTANCE();
+
+// Tested on an Arduino Nano
 void handleNoteOn(byte inChannel, byte inNote, byte inVelocity)
 {
     // Register our note with Cycler.
     // Cycler will give us the next free channel, that we can use to pass the information through:
-    byte channel = cycler_note_on(inNote, inVelocity, channel);
-    // TODO: Check if this does not result in an infinite loop:
+    byte channel = cycler_note_on(inNote, inVelocity);
     MIDI.sendNoteOn(inNote, inVelocity, channel);
 }
 
@@ -42,7 +49,6 @@ void handleNoteOff(byte inChannel, byte inNote, byte inVelocity)
     // If it's a note off, we need to inform cycler that there is a note off.
     // Cycler will return the channel that was assigned, so we can pass it through:
     byte channel = cycler_note_off(inNote);
-    // TODO: Check if this does not result in an infinite loop:
     MIDI.sendNoteOff(inNote, inVelocity, channel);
 }
 
@@ -52,7 +58,7 @@ void setup()
     MIDI.setHandleNoteOn(handleNoteOn);
     MIDI.setHandleNoteOff(handleNoteOff);
     // Launch MIDI, listening to channel 1.
-    MIDI.begin(1);
+    MIDI.begin(1); 
 }
 
 void loop()
@@ -67,6 +73,12 @@ void loop()
     }
 }
 ```
+
+#### Schematic
+
+Basically you just need to add a Midi Input/Output (or Through) interface to your Arduino and you're good to go.
+
+TODO: Insert schematic:
 
 ### 3/3 Voice polyphony
 
@@ -83,6 +95,51 @@ This is the same as the 6-Voice polyphony, only then with 4 channels (1 to 4). C
 ### 4/1 Voice polyphony
 
 This is the same as 3/1 voice polyphony, with the only difference that you have 4 channels below the center note, and 1 note above the center note (this will play in channel 5). Channel 6 is unused, so you can use that to create a funky pattern to accompany you.
+
+### 1/1 Delay
+
+TBD
+
+### 2/2 Delay
+
+TBD
+
+### 3/3 Delay
+
+TBD
+
+## Ideas
+
+6 pots / 1 button to switch modes (LED's for modes)
+
+- "Off" mode (mode 0), where channel 1 is just routed through (can be useful for sound design)
+- Dual note 1, 2-poly, 3-poly
+- Triple note 1, 2-poly
+- Delay / poly combo
+- Drunk delay (1/1, 2/2, 3/3)
+    - Habit-like (with different delay times, random notes, shifting, chaos, CC messages)
+        - Randomize with volume, pan, pitch, decay, color, shape, sweep, contour, delay?, reverb?, punch, LFO stuff
+- Attack slope (2 times, LH & RH)
+- Slopes for other CC controls (color, contour, shape, sweep)
+    - CC 7      = volume (for attack slope)
+    - CC 10     = pan
+    - CC 65     = pitch
+    - CC 80     = decay
+    - CC 16     = color
+    - CC 17     = shape
+    - CC 18     = sweep
+    - CC 19     = contour
+    - CC 12     = delay
+    - CC 13     = reverb
+    - CC 66     = punch
+    - CC 102    = LFO speed
+    - CC 103    = Multiplier
+    - CC 104    = Fade In/Out
+    - CC 105    = Destination
+    - CC 106    = Waveform
+    - CC 107    = Start Phase
+    - CC 108    = Reset
+    - CC 109    = Depth
 
 ## Contributing
 
