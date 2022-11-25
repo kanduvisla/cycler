@@ -40,7 +40,7 @@ byte cycler_note_on_and_tick(byte note, byte velocity) {
 byte cycler_note_off_and_tick(byte note) {
     byte channel = cycler_note_off(note);
     cycler_tick();
-    return channel + 1;
+    return channel;
 }
 
 // MARK: --- Test cases for Cycler
@@ -53,6 +53,10 @@ static void test_polyphony_channel(byte expectedChannel) {
 
 // Polyphony testing
 void test_polyphony() {
+    // Setup:
+    cycler_reset();
+    cycler_set_mode(CYCLER_MODE_6_POLY);
+
     // Scenario #1: First note returns first free channel (fresh setup)
     test_polyphony_channel(6);
 
@@ -232,6 +236,38 @@ void test_polyphony_4_1() {
     assert(5, newChannel2, "New note should play on newly free high channel");
 }
 
+// Regression tests about "note off" signals that were not being sent
+void test_note_off() {
+    // Setup:
+    cycler_reset();
+    cycler_set_mode(CYCLER_MODE_6_POLY);
+
+    byte ch1On = cycler_note_on_and_tick(48, 100);
+    byte ch2On = cycler_note_on_and_tick(50, 100);
+    byte ch3On = cycler_note_on_and_tick(52, 100);
+
+    byte ch1Off = cycler_note_off_and_tick(48);
+    byte ch2Off = cycler_note_off_and_tick(50);
+    byte ch3Off = cycler_note_off_and_tick(52);
+
+    assert(ch1On, ch1Off, "Cycler channel on and off should be the same");
+    assert(ch2On, ch2Off, "Cycler channel on and off should be the same");
+    assert(ch3On, ch3Off, "Cycler channel on and off should be the same");
+}
+
+void test_mode_zero() {
+    // Setup:
+    cycler_reset();
+    cycler_set_mode(CYCLER_MODE_NONE);
+
+    byte ch1On = cycler_note_on_and_tick(48, 100);
+    byte ch2On = cycler_note_on_and_tick(50, 100);
+    byte expectedChannel = 1;
+
+    assert(ch1On, expectedChannel, "Channel should always be 1");
+    assert(ch2On, expectedChannel, "Channel should always be 1");
+}
+
 // MARK: --- Main application
 
 int main(void) {
@@ -240,6 +276,8 @@ int main(void) {
     test_polyphony_3_1();
     test_polyphony_4();
     test_polyphony_4_1();
+    test_note_off();
+    test_mode_zero();
     printf("\n");
     return 0;
 }

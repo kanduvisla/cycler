@@ -148,7 +148,7 @@ byte cycler_note_off(byte note) {
             notes[channel] = 0;
             velocity[channel] = 0;
             idleTicks[channel] = 0;
-            return channel;
+            return channel + 1;
         }
     }
     
