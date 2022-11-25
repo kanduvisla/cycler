@@ -6,7 +6,7 @@
 // MARK: --- Assertion methods
 
 // Assert if X equals Y
-void assert(byte x, byte y, char* message) {
+void assert(byte x, byte y, const char* message) {
     if (x != y) {
         printf("\n\033[0;31mFAIL:\033[0m expected %u, got %u \033[0;34m(%s)\033[0m\n", x, y, message);
     } else {
@@ -15,7 +15,7 @@ void assert(byte x, byte y, char* message) {
 }
 
 // Assert if arr contains X
-void assert_contains(byte arr[], size_t arr_size, byte x, char* message) {
+void assert_contains(byte arr[], size_t arr_size, byte x, const char* message) {
     bool ok = false;
     for (size_t i = 0; i < arr_size; i++) {
         if (arr[i] == x) {

@@ -5,6 +5,7 @@
 
 // Type definitions
 typedef uint8_t byte;
+typedef uint16_t integer;
 
 // Mode definitions
 #define CYCLER_MODE_NONE 0

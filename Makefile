@@ -1,10 +1,14 @@
+# Compile the ADS code:
+ads.o: ads.cpp
+	gcc -c ads.cpp
+
 # Compile the Cycler code:
-cycler.o: cycler.c
-	gcc -c cycler.c
+cycler.o: cycler.cpp
+	gcc -c cycler.cpp
 
 # Compile the test code, only if test does not exist, or cycler.o is newer than test:
-test: cycler.o test.c
-	gcc -c test.c
+test: cycler.o test.cpp
+	gcc -c test.cpp
 	gcc -Wall -o test test.o cycler.o
 	./test
 	make clean
