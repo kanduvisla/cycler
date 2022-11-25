@@ -106,6 +106,9 @@ byte cycler_note_on(byte note, byte vel) {
     int midi_split_note = 60;
     byte channel;
     switch (cycler_mode) {
+    case CYCLER_MODE_NONE:
+        channel = 1;
+        break;
     case CYCLER_MODE_6_POLY:
         channel = cycler_get_next_polyphony_channel();
         break;
