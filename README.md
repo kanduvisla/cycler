@@ -8,6 +8,7 @@ This is written with the Elektron Model: Cycles in mind, but basically it will w
 
 ## Modes
 
+0. Everything off (Mide channel #1 is routed directly to channel #1 out)
 1. 6-Voice polyphony
 2. 3/3 Voice polyphony
 3. 3/1 Voice polyphony
@@ -16,6 +17,37 @@ This is written with the Elektron Model: Cycles in mind, but basically it will w
 6. 1/1 Delay
 7. 2/2 Delay
 8. 3/3 Delay
+
+#### LED details
+
+By using 8 LED's, one 74HC595 and 3 Buttons the Cycler can be easily operated.
+
+- Button 1: Switch modes
+- Button 2: Switch Decay point for ADS slope for left-hand side
+- Button 3: Switch Decay point for ADS slope for right-hand side
+
+```
+( ) ( ) ( ) ( ) ( ) ( ) ( ) ( )
+      mode     |  lhs  |  rhs  
+
+modes:
+
+( ) ( ) ( ) ( ) = Mode 0 (no mode)
+(o) ( ) ( ) ( ) = Mode 1 (6-voice)
+( ) (o) ( ) ( ) = Mode 2 (3/3 voice)
+(o) (o) ( ) ( ) = Mode 3 (3/1 voice)
+( ) ( ) (o) ( ) = Mode 4 (4 voice) 
+(o) ( ) (o) ( ) = Mode 5 (4/1 voice)
+(o) ( ) ( ) (o) = Mode 6 (1/1 delay)
+( ) (o) ( ) (o) = Mode 7 (2/2 delay)
+( ) ( ) (o) (o) = Mode 8 (3/3 delay)
+
+decay slopes:
+
+( ) ( ) = Decay point is in the center
+(o) ( ) = Decay point is on 25%
+( ) (0) = Decay point is on 75% 
+```
 
 ### 6 Voice polyphony
 
@@ -107,6 +139,22 @@ TBD
 ### 3/3 Delay
 
 TBD
+
+## ADSR Slopes
+
+When enabled, Cycler can add ADSR-like behaviour to your Model: Cycles. It does this by changing the volume using a CC command.
+Please note that this is not a "true" ADSR implementation, but is more like an ADS-implementation. It adds Attack, Decay and
+Sustain, because the Release is already done by the "Decay" knob on your Model: Cycles.
+
+How it works: you need to connect 6 potentiometers to your Arduino Nano. Since we can have polyphony with a split, 3 pots are assigned 
+to the left hand side and 3 pots are assigned to the right hand side. These 3 pots (for both sides) represent Attack, Decay and Sustain.
+
+- Attack: the time it takes (in ppqn) to reach the sustain point. This is a value between 0 and 4096, and the timescale is ppqn (pulses
+per quarter note). For MIDI, this means 24 ppqn, which means that at 120BPM 1 pulse will last 0.00087 seconds. With a max of 4096, this 
+means that the entire journey to the sustain point cannot last longer than 3,5 seconds (unless you set your BPM lower).
+- Decay: This controls both the Decay value (not the time of the slope). The Decay value is the same as the Sustain value + the value of
+this pot. (TODO: what about the "point")
+- Sustain: This is the volume when the note is hold down.
 
 ## Ideas
 
