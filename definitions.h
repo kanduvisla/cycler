@@ -7,6 +7,7 @@
 typedef uint8_t byte;
 
 // Mode definitions
+#define CYCLER_MODE_NONE 0
 #define CYCLER_MODE_6_POLY 1
 #define CYCLER_MODE_3_3_POLY 2
 #define CYCLER_MODE_3_1_POLY 3
