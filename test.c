@@ -255,6 +255,19 @@ void test_note_off() {
     assert(ch3On, ch3Off, "Cycler channel on and off should be the same");
 }
 
+void test_mode_zero() {
+    // Setup:
+    cycler_reset();
+    cycler_set_mode(CYCLER_MODE_NONE);
+
+    byte ch1On = cycler_note_on_and_tick(48, 100);
+    byte ch2On = cycler_note_on_and_tick(50, 100);
+    byte expectedChannel = 1;
+
+    assert(ch1On, expectedChannel, "Channel should always be 1");
+    assert(ch2On, expectedChannel, "Channel should always be 1");
+}
+
 // MARK: --- Main application
 
 int main(void) {
@@ -264,6 +277,7 @@ int main(void) {
     test_polyphony_4();
     test_polyphony_4_1();
     test_note_off();
+    test_mode_zero();
     printf("\n");
     return 0;
 }
