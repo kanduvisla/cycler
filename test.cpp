@@ -2,6 +2,7 @@
 #include <stdbool.h>
 #include "definitions.h"
 #include "cycler.h"
+#include "ads.h"
 
 // MARK: --- Assertion methods
 
@@ -268,6 +269,39 @@ void test_mode_zero() {
     assert(ch2On, expectedChannel, "Channel should always be 1");
 }
 
+void test_ads_calculation() {
+    byte result;
+
+    result = cycler_calculate_volume(256, 256, 0, 512);
+    assert(64, result, "When the current position == A, result should be identical to the sustain level");
+
+    // Attack tests:
+    result = cycler_calculate_volume(128, 0, 0, 512);
+    assert(64, result, "When A == 0, result should be identical to the sustain level");
+
+    result = cycler_calculate_volume(128, 256, 0, 512);
+    assert(32, result, "When A != 0 and CP == 50%, result should half of S");
+   
+    result = cycler_calculate_volume(64, 256, 0, 512);
+    assert(16, result, "When A != 0 and CP == 25%, result should 1/2 of S");
+
+    result = cycler_calculate_volume(192, 256, 0, 512);
+    assert(48, result, "When A != 0 and CP == 25%, result should 3/4 of S");
+
+    // Decay tests:
+    result = cycler_calculate_volume(128, 0, 90, 512);
+    assert(64, result, "When A == 0 and D != 0, result should be identical to the sustain level");
+
+    result = cycler_calculate_volume(128, 256, 768, 512);
+    assert(96, result, "When A != 0 and D != 0 and CP == 50%, result should be D");
+   
+    // result = cycler_calculate_volume(64, 256, 0, 60);
+    // assert(15, result, "When A != 0 and CP == 25%, result should 1/2 of S");
+
+    // result = cycler_calculate_volume(196, 256, 0, 60);
+    // assert(45, result, "When A != 0 and CP == 25%, result should 3/4 of S");
+}
+
 // MARK: --- Main application
 
 int main(void) {
@@ -278,6 +312,7 @@ int main(void) {
     test_polyphony_4_1();
     test_note_off();
     test_mode_zero();
+    test_ads_calculation();
     printf("\n");
     return 0;
 }

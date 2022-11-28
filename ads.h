@@ -10,6 +10,6 @@
 /// @param decayValue 
 /// @param sustainValue 
 /// @return the calculated volume
-byte calculateVolume(integer currentPosition, integer totalLength, byte attackValue, byte decayValue, byte sustainValue);
+byte cycler_calculate_volume(integer currentPosition, integer attackValue, integer decayValue, integer sustainValue);
 
 #endif

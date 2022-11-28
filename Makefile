@@ -7,16 +7,12 @@ cycler.o: cycler.cpp
 	gcc -c cycler.cpp
 
 # Compile the test code, only if test does not exist, or cycler.o is newer than test:
-test: cycler.o test.cpp
+test: ads.o cycler.o test.cpp
 	gcc -c test.cpp
-	gcc -Wall -o test test.o cycler.o
+	gcc -Wall -o test test.o ads.o cycler.o
 	./test
 	make clean
 	
-# Run the tests:
-run_test:
-	./test
-
 # Compile the code:
 main: cycler.o
 	gcc -c main.c
