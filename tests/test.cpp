@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdbool.h>
-#include "definitions.h"
-#include "cycler.h"
+#include "../src/definitions.h"
+#include "../src/cycler.h"
 
 // MARK: --- Assertion methods
 
