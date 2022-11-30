@@ -108,11 +108,11 @@ TBD
 
 TBD
 
-## Ideas
+## Ideas / Todo's
 
 6 pots / 1 button to switch modes (LED's for modes)
 
-- "Off" mode (mode 0), where channel 1 is just routed through (can be useful for sound design)
+- Let the clock through on channel 1 (or all channels?)
 - Dual note 1, 2-poly, 3-poly
 - Triple note 1, 2-poly
 - Delay / poly combo

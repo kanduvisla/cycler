@@ -137,6 +137,8 @@ byte cycler_note_on(byte note, byte vel) {
     velocity[channel - 1] = vel;
     idleTicks[channel - 1] = 0;
 
+    cycler_tick();
+
     return channel;
 }
 
@@ -148,6 +150,9 @@ byte cycler_note_off(byte note) {
             notes[channel] = 0;
             velocity[channel] = 0;
             idleTicks[channel] = 0;
+
+            cycler_tick();
+
             return channel + 1;
         }
     }
