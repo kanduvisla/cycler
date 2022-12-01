@@ -140,6 +140,7 @@ TBD
 
 TBD
 
+<<<<<<< HEAD
 ## ADSR Slopes
 
 When enabled, Cycler can add ADSR-like behaviour to your Model: Cycles. It does this by changing the volume using a CC command.
@@ -156,11 +157,11 @@ means that the entire journey to the sustain point cannot last longer than 3,5 s
 this pot. (TODO: what about the "point")
 - Sustain: This is the volume when the note is hold down.
 
-## Ideas
+## Ideas / Todo's
 
 6 pots / 1 button to switch modes (LED's for modes)
 
-- "Off" mode (mode 0), where channel 1 is just routed through (can be useful for sound design)
+- Let the clock through on channel 1 (or all channels?)
 - Dual note 1, 2-poly, 3-poly
 - Triple note 1, 2-poly
 - Delay / poly combo
