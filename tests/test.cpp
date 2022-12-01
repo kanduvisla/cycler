@@ -1,13 +1,8 @@
 #include <stdio.h>
 #include <stdbool.h>
-<<<<<<<< HEAD:test.cpp
-#include "definitions.h"
-#include "cycler.h"
-#include "ads.h"
-========
 #include "../src/definitions.h"
 #include "../src/cycler.h"
->>>>>>>> main:tests/test.cpp
+#include "../src/ads.h"
 
 // MARK: --- Assertion methods
 
