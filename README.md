@@ -13,9 +13,11 @@ This is written with the Elektron Model: Cycles in mind, but basically it will w
 3. 3/1 Voice polyphony
 4. 4-Voice polyphony
 5. 4/1 Voice polyphony
-6. 1/1 Delay
+6. Dual note
+
+<!-- 6. 1/1 Delay
 7. 2/2 Delay
-8. 3/3 Delay
+8. 3/3 Delay -->
 
 ### 6 Voice polyphony
 
@@ -95,6 +97,10 @@ This is the same as the 6-Voice polyphony, only then with 4 channels (1 to 4). C
 ### 4/1 Voice polyphony
 
 This is the same as 3/1 voice polyphony, with the only difference that you have 4 channels below the center note, and 1 note above the center note (this will play in channel 5). Channel 6 is unused, so you can use that to create a funky pattern to accompany you.
+
+### Dual note
+
+This mode plays the input of channel 1 on channel 1 and 2 simultaniously. So it is monophonic, but the sound is doubled. This allows you to mix 2 machines together to create unique new sounds. Please note that this mode actually does not adds very much complexity to the Cycler code, but needs to be handle in your Arduino Sketch. See the ModeButton example on how this is handled.
 
 ### 1/1 Delay
 

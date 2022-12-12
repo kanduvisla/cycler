@@ -34,6 +34,24 @@ void handleNoteOn(byte inChannel, byte inNote, byte inVelocity)
     // Cycler will give us the next free channel, that we can use to pass the information through:
     byte channel = cycler_note_on(inNote, inVelocity);
     MIDI.sendNoteOn(inNote, inVelocity, channel);
+    // The Dual & Triple mode needs to be handled here:
+    if (mode == CYCLER_MODE_DUAL_1) {
+      MIDI.sendNoteOn(inNote, inVelocity, channel + 1);
+    }
+    if (mode == CYCLER_MODE_DUAL_2) {
+      MIDI.sendNoteOn(inNote, inVelocity, channel + 2);
+    }
+    if (mode == CYCLER_MODE_DUAL_3) {
+      MIDI.sendNoteOn(inNote, inVelocity, channel + 3);
+    }
+    if (mode == CYCLER_MODE_TRIPLE_1) {
+      MIDI.sendNoteOn(inNote, inVelocity, channel + 1);
+      MIDI.sendNoteOn(inNote, inVelocity, channel + 2);
+    }
+    if (mode == CYCLER_MODE_TRIPLE_2) {
+      MIDI.sendNoteOn(inNote, inVelocity, channel + 2);
+      MIDI.sendNoteOn(inNote, inVelocity, channel + 4);
+    }
 }
 
 void handleNoteOff(byte inChannel, byte inNote, byte inVelocity)
@@ -58,7 +76,7 @@ void readModeButton() {
       if (buttonState == HIGH) {
         // Increase mode:
         mode += 1;
-        if (mode == 6) {
+        if (mode == CYCLER_MODE_MAX) {
           mode = CYCLER_MODE_NONE;
         }
         cycler_set_mode(mode);

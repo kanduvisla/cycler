@@ -45,7 +45,7 @@ byte cycler_note_off_and_tick(byte note) {
 
 // MARK: --- Test cases for Cycler
 
-static void test_polyphony_channel(byte expectedChannel) {
+static void assert_next_polyphony_channel(byte expectedChannel) {
     byte result = cycler_get_next_polyphony_channel();
     assert(expectedChannel, result, "incorrect output channel");
     cycler_reset();
@@ -58,24 +58,24 @@ void test_polyphony() {
     cycler_set_mode(CYCLER_MODE_6_POLY);
 
     // Scenario #1: First note returns first free channel (fresh setup)
-    test_polyphony_channel(6);
+    assert_next_polyphony_channel(6);
 
     // Scenario #2: A note is played on channel 6:
-    cycler_note_on(60, 100);
-    test_polyphony_channel(5);
+    cycler_note_on(60, 100); // 6
+    assert_next_polyphony_channel(1);
 
-    // Scenario #3: A note is played on channel 5 & 6:
-    cycler_note_on(50, 100);
-    cycler_note_on(60, 100);
-    test_polyphony_channel(4);
+    // Scenario #3: A note is played on channel 5 & 4:
+    cycler_note_on(50, 100); // 6
+    cycler_note_on(60, 100); // 1
+    assert_next_polyphony_channel(2);
 
     // Scenario #4: Only channel 1 is free:
-    cycler_note_on(10, 100);
-    cycler_note_on(20, 100);
-    cycler_note_on(40, 100);
-    cycler_note_on(50, 100);
-    cycler_note_on(60, 100);
-    test_polyphony_channel(1);
+    cycler_note_on(10, 100); // 6
+    cycler_note_on(20, 100); // 1
+    cycler_note_on(40, 100); // 2 
+    cycler_note_on(50, 100); // 3
+    cycler_note_on(60, 100); // 4
+    assert_next_polyphony_channel(5);
     
     // Scenario #5: Channel 1 & 6 are used, channel 4 has the longest idle time
     cycler_note_on_and_tick(10, 100);
@@ -89,7 +89,7 @@ void test_polyphony() {
     cycler_note_off_and_tick(30);
     cycler_note_off_and_tick(50);
     cycler_note_off_and_tick(20);
-    test_polyphony_channel(channelNote4);
+    assert_next_polyphony_channel(channelNote4);
     cycler_reset();
 }
 
@@ -268,6 +268,10 @@ void test_mode_zero() {
     assert(ch2On, expectedChannel, "Channel should always be 1");
 }
 
+void test_dual_note() {
+
+}
+
 // MARK: --- Main application
 
 int main(void) {
@@ -278,6 +282,7 @@ int main(void) {
     test_polyphony_4_1();
     test_note_off();
     test_mode_zero();
+    test_dual_note();
     printf("\n");
     return 0;
 }
