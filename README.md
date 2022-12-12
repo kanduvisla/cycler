@@ -14,6 +14,10 @@ This is written with the Elektron Model: Cycles in mind, but basically it will w
 4. 4-Voice polyphony
 5. 4/1 Voice polyphony
 6. Dual note
+7. Dual note, 2 voice polyphony
+8. Dual note, 3 voice polyphony
+9. Triple note
+10. Triple note, 2 voice polyphony
 
 <!-- 6. 1/1 Delay
 7. 2/2 Delay
@@ -102,7 +106,23 @@ This is the same as 3/1 voice polyphony, with the only difference that you have 
 
 This mode plays the input of channel 1 on channel 1 and 2 simultaniously. So it is monophonic, but the sound is doubled. This allows you to mix 2 machines together to create unique new sounds. Please note that this mode actually does not adds very much complexity to the Cycler code, but needs to be handle in your Arduino Sketch. See the ModeButton example on how this is handled.
 
-### 1/1 Delay
+### Dual note, 2 Voice polyphony
+
+The same as Dual note, but then with 2 voice polyphony. Output channel 1 & 2 will be duplicated on channel 3 & 4.
+
+### Dual note, 3 Voice polyphony
+
+The same as Dual note, but then with 3 voice polyphony. Output channel 1, 2 & 3 will be duplicated on channel 4, 5 & 6. 
+
+### Triple note
+
+The same as dual note, but then with one note extra. So the input on channel 1 will be duplicated on channel 2 and 3.
+
+### Triple note, 2 voice polyphony
+
+The same as triple note, but with 2 voice polyphony. So the input on channel 1 & 2 will be duplicated on channel 3, 4, 5 & 6. (1-3-5, 2-4-6)
+
+<!-- ### 1/1 Delay
 
 TBD
 
@@ -112,15 +132,13 @@ TBD
 
 ### 3/3 Delay
 
-TBD
+TBD -->
 
 ## Ideas / Todo's
 
 6 pots / 1 button to switch modes (LED's for modes)
 
 - Let the clock through on channel 1 (or all channels?)
-- Dual note 1, 2-poly, 3-poly
-- Triple note 1, 2-poly
 - Delay / poly combo
 - Drunk delay (1/1, 2/2, 3/3)
     - Habit-like (with different delay times, random notes, shifting, chaos, CC messages)
