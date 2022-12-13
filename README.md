@@ -21,6 +21,12 @@ This is written with the Elektron Model: Cycles in mind, but basically it will w
 10. Triple note, 2 voice polyphony
 11. Berserk mode
 
+## More features
+
+This library also adds an attack slope to your Model: Cycles. Basically it changes the volume of the playing channel by sending MIDI CC signals.
+
+See the AttackSlope example for more.
+
 <!-- 6. 1/1 Delay
 7. 2/2 Delay
 8. 3/3 Delay -->
