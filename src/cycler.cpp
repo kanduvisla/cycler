@@ -130,6 +130,24 @@ byte cycler_note_on(byte note, byte vel) {
             cycler_get_next_polyphony_channel_se(0, 4) :
             cycler_get_next_polyphony_channel_se(4, 5);
         break;
+    case CYCLER_MODE_DUAL_1:
+        channel = 1;
+        break;
+    case CYCLER_MODE_DUAL_2:
+        channel = cycler_get_next_polyphony_channel_se(0, 2);
+        break;
+    case CYCLER_MODE_DUAL_3:
+        channel = cycler_get_next_polyphony_channel_se(0, 3);
+        break;
+    case CYCLER_MODE_TRIPLE_1:
+        channel = 1;
+        break;
+    case CYCLER_MODE_TRIPLE_2:
+        channel = cycler_get_next_polyphony_channel_se(0, 2);
+        break;
+    case CYCLER_MODE_BERSERK:
+        channel = 1;
+        break;
     }
 
     notePlaying[channel - 1] = true;
