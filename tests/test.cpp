@@ -269,6 +269,25 @@ void test_mode_zero() {
     assert(ch2On, expectedChannel, "Channel should always be 1");
 }
 
+void test_attack_calculation() {
+    byte result;
+
+    result = cycler_calculate_attack(0, 0, 64);
+    assert(64, result, "When total length = 0, always return the final volume");
+
+    result = cycler_calculate_attack(25, 100, 64);
+    assert(16, result, "When 1/4, expect the 1/4 of the final volume");
+
+    result = cycler_calculate_attack(50, 100, 64);
+    assert(32, result, "When halfway, expect the half value of the final volume");
+
+    result = cycler_calculate_attack(75, 100, 64);
+    assert(48, result, "When 3/4, expect 3/4 value of the final volume");
+
+    result = cycler_calculate_attack(200, 100, 64);
+    assert(64, result, "When overspan, always return the final volume");
+}
+
 void test_ads_calculation() {
     byte result;
 
@@ -292,7 +311,12 @@ void test_ads_calculation() {
     result = cycler_calculate_volume(128, 0, 90, 512);
     assert(64, result, "When A == 0 and D != 0, result should be identical to the sustain level");
 
-    result = cycler_calculate_volume(128, 256, 768, 512);
+    result = cycler_calculate_volume(
+        128, // current position (=halfway)
+        256, // attack level (=25%, since it goes to 1024)
+        768, // decay level (=75%, since it goes to 1024)
+        512  // sustain level (=50%, since it goes to 1024)
+    );
     assert(96, result, "When A != 0 and D != 0 and CP == 50%, result should be D");
    
     // result = cycler_calculate_volume(64, 256, 0, 60);
@@ -316,7 +340,8 @@ int main(void) {
     test_polyphony_4_1();
     test_note_off();
     test_mode_zero();
-    test_ads_calculation();
+    test_attack_calculation();
+    // test_ads_calculation();
     test_dual_note();
     printf("\n");
     return 0;

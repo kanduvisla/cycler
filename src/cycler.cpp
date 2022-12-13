@@ -18,6 +18,9 @@ byte velocity[6] = {0};
 // The amount of idle ticks. When a channel is not playing a note, the channel that has been off the longest has the highest preference
 uint16_t idleTicks[6] = {0};
 
+// The amount of playing ticks. Used for attack slopes
+uint16_t playingTicks[6] = {0};
+
 static int cycler_mode = CYCLER_MODE_6_POLY;
 static int cycler_start_channel = 1;
 static int cycler_end_channel = 6;
@@ -27,6 +30,8 @@ static void increase_idle_counter() {
     for (int channel = 0; channel < 6; channel += 1) {
         if (notePlaying[channel] == false) {
             idleTicks[channel] += 1;
+        } else {
+            playingTicks[channel] += 1;
         }
     }
 }
@@ -154,6 +159,7 @@ byte cycler_note_on(byte note, byte vel) {
     notes[channel - 1] = note;
     velocity[channel - 1] = vel;
     idleTicks[channel - 1] = 0;
+    playingTicks[channel - 1] = 0;
 
     cycler_tick();
 

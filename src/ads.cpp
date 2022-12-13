@@ -2,6 +2,15 @@
 #include "definitions.h"
 #include "ads.h"
 
+byte cycler_calculate_attack(integer currentPosition, integer totalLength, byte finalVolume) {
+    if (totalLength == 0 || currentPosition >= totalLength) {
+        return finalVolume;
+    }
+
+    float p = (float)currentPosition / (float)totalLength;
+    return finalVolume * p;
+}
+
 byte cycler_calculate_volume(integer currentPosition, integer attackValue, integer decayValue, integer sustainValue) {
     if (currentPosition >= attackValue || attackValue == 0) {
         return sustainValue >> 3;
@@ -20,24 +29,24 @@ byte cycler_calculate_volume(integer currentPosition, integer attackValue, integ
     // For debugging:
     int precision = 4;
     printf("\n");
-    printf("CP = %u\n", currentPosition);
-    printf("A  = %u\n", attackValue);
-    printf("A1 = %u\n", attackValue1);
-    printf("A2 = %u\n", attackValue2);
-    printf("D  = %u\n", decayValue);
-    printf("S  = %u\n", sustainValue);
+    printf("Current Position = %u\n", currentPosition);
+    printf("Attack           = %u\n", attackValue);
+    printf("Attack Value 1   = %u\n", attackValue1);
+    printf("Attack Value 2   = %u\n", attackValue2);
+    printf("Decay            = %u\n", decayValue);
+    printf("Sustain          = %u\n", sustainValue);
 
     if (currentPosition <= attackValue1) {
         // Calculate the total decay value:
         float dP = (float)decayValue / (float)1024;
         integer dV = (1023 - sustainValue); // * dP;
 
-        printf("DP = %6.*lf\n", precision, dP);
-        printf("DV = %u\n", dV);
+        printf("Decay Percentage = %6.*lf\n", precision, dP);
+        printf("Decay Value      = %u\n", dV);
 
         // We're on the left side (or on top) of the slope:
         float p = (float)currentPosition / (float)attackValue1;
-        printf("P  = %6.*lf\n", precision, p);
+        printf("Percentage = %6.*lf\n", precision, p);
         return (sustainValue + dV) * p;
     } else {
         // We're on the right side (or on the end) of the slope:

@@ -12,4 +12,7 @@
 /// @return the calculated volume
 byte cycler_calculate_volume(integer currentPosition, integer attackValue, integer decayValue, integer sustainValue);
 
+/// @brief Calculate the volume according to some parameters
+byte cycler_calculate_attack(integer currentPosition, integer totalLength, byte finalVolume);
+
 #endif

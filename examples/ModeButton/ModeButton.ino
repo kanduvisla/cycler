@@ -148,6 +148,7 @@ void setup()
     // Launch MIDI, listening to channel 1.
     MIDI.begin(1); 
     cycler_set_mode(mode);
+    MIDI.turnThruOff();
 }
 
 void loop()
