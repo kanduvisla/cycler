@@ -34,23 +34,32 @@ void handleNoteOn(byte inChannel, byte inNote, byte inVelocity)
     // Cycler will give us the next free channel, that we can use to pass the information through:
     byte channel = cycler_note_on(inNote, inVelocity);
     MIDI.sendNoteOn(inNote, inVelocity, channel);
-    // The Dual & Triple mode needs to be handled here:
-    if (mode == CYCLER_MODE_DUAL_1) {
-      MIDI.sendNoteOn(inNote, inVelocity, channel + 1);
-    }
-    if (mode == CYCLER_MODE_DUAL_2) {
-      MIDI.sendNoteOn(inNote, inVelocity, channel + 2);
-    }
-    if (mode == CYCLER_MODE_DUAL_3) {
-      MIDI.sendNoteOn(inNote, inVelocity, channel + 3);
-    }
-    if (mode == CYCLER_MODE_TRIPLE_1) {
-      MIDI.sendNoteOn(inNote, inVelocity, channel + 1);
-      MIDI.sendNoteOn(inNote, inVelocity, channel + 2);
-    }
-    if (mode == CYCLER_MODE_TRIPLE_2) {
-      MIDI.sendNoteOn(inNote, inVelocity, channel + 2);
-      MIDI.sendNoteOn(inNote, inVelocity, channel + 4);
+    // The Dual, Triple and berserk modes needs to be handled here:
+    if (mode >= CYCLER_MODE_DUAL_1) {
+      if (mode == CYCLER_MODE_DUAL_1) {
+        MIDI.sendNoteOn(inNote, inVelocity, channel + 1);
+      }
+      if (mode == CYCLER_MODE_DUAL_2) {
+        MIDI.sendNoteOn(inNote, inVelocity, channel + 2);
+      }
+      if (mode == CYCLER_MODE_DUAL_3) {
+        MIDI.sendNoteOn(inNote, inVelocity, channel + 3);
+      }
+      if (mode == CYCLER_MODE_TRIPLE_1) {
+        MIDI.sendNoteOn(inNote, inVelocity, channel + 1);
+        MIDI.sendNoteOn(inNote, inVelocity, channel + 2);
+      }
+      if (mode == CYCLER_MODE_TRIPLE_2) {
+        MIDI.sendNoteOn(inNote, inVelocity, channel + 2);
+        MIDI.sendNoteOn(inNote, inVelocity, channel + 4);
+      }
+      if (mode == CYCLER_MODE_BERSERK) {
+        MIDI.sendNoteOn(inNote, inVelocity, channel + 1);
+        MIDI.sendNoteOn(inNote, inVelocity, channel + 2);
+        MIDI.sendNoteOn(inNote, inVelocity, channel + 3);
+        MIDI.sendNoteOn(inNote, inVelocity, channel + 4);
+        MIDI.sendNoteOn(inNote, inVelocity, channel + 5);
+      }
     }
 }
 
@@ -60,6 +69,44 @@ void handleNoteOff(byte inChannel, byte inNote, byte inVelocity)
     // Cycler will return the channel that was assigned, so we can pass it through:
     byte channel = cycler_note_off(inNote);
     MIDI.sendNoteOff(inNote, inVelocity, channel);
+    // The Dual, Triple and berserk modes needs to be handled here:
+    if (mode >= CYCLER_MODE_DUAL_1) {
+      if (mode == CYCLER_MODE_DUAL_1) {
+        MIDI.sendNoteOff(inNote, inVelocity, channel + 1);
+      }
+      if (mode == CYCLER_MODE_DUAL_2) {
+        MIDI.sendNoteOff(inNote, inVelocity, channel + 2);
+      }
+      if (mode == CYCLER_MODE_DUAL_3) {
+        MIDI.sendNoteOff(inNote, inVelocity, channel + 3);
+      }
+      if (mode == CYCLER_MODE_TRIPLE_1) {
+        MIDI.sendNoteOff(inNote, inVelocity, channel + 1);
+        MIDI.sendNoteOff(inNote, inVelocity, channel + 2);
+      }
+      if (mode == CYCLER_MODE_TRIPLE_2) {
+        MIDI.sendNoteOff(inNote, inVelocity, channel + 2);
+        MIDI.sendNoteOff(inNote, inVelocity, channel + 4);
+      }
+      if (mode == CYCLER_MODE_BERSERK) {
+        MIDI.sendNoteOff(inNote, inVelocity, channel + 1);
+        MIDI.sendNoteOff(inNote, inVelocity, channel + 2);
+        MIDI.sendNoteOff(inNote, inVelocity, channel + 3);
+        MIDI.sendNoteOff(inNote, inVelocity, channel + 4);
+        MIDI.sendNoteOff(inNote, inVelocity, channel + 5);
+      }
+    }
+}
+
+void setMode(byte newMode) {
+  mode = newMode;
+  if (mode == CYCLER_MODE_MAX) {
+    mode = CYCLER_MODE_NONE;
+    MIDI.turnThruOn();
+  } else {
+    MIDI.turnThruOff();
+  }
+  cycler_set_mode(mode);
 }
 
 void readModeButton() {
@@ -74,12 +121,7 @@ void readModeButton() {
       buttonState = reading;
 
       if (buttonState == HIGH) {
-        // Increase mode:
-        mode += 1;
-        if (mode == CYCLER_MODE_MAX) {
-          mode = CYCLER_MODE_NONE;
-        }
-        cycler_set_mode(mode);
+        setMode(mode + 1);
         updateLEDs();
       }
     }
@@ -117,6 +159,7 @@ void loop()
             case midi::Clock:       
                 // If it is a Clock tick, we need to inform Cycler that there has been a clock tick.
                 cycler_tick();
+                MIDI.sendClock();
                 break;
         }
     }

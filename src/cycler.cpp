@@ -145,6 +145,9 @@ byte cycler_note_on(byte note, byte vel) {
     case CYCLER_MODE_TRIPLE_2:
         channel = cycler_get_next_polyphony_channel_se(0, 2);
         break;
+    case CYCLER_MODE_BERSERK:
+        channel = 1;
+        break;
     }
 
     notePlaying[channel - 1] = true;

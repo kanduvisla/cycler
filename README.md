@@ -18,6 +18,7 @@ This is written with the Elektron Model: Cycles in mind, but basically it will w
 8. Dual note, 3 voice polyphony
 9. Triple note
 10. Triple note, 2 voice polyphony
+11. Berserk mode
 
 <!-- 6. 1/1 Delay
 7. 2/2 Delay
@@ -121,6 +122,10 @@ The same as dual note, but then with one note extra. So the input on channel 1 w
 ### Triple note, 2 voice polyphony
 
 The same as triple note, but with 2 voice polyphony. So the input on channel 1 & 2 will be duplicated on channel 3, 4, 5 & 6. (1-3-5, 2-4-6)
+
+### Berserk mode
+
+Why not? Each note triggers all 6 channels simultaniously.
 
 <!-- ### 1/1 Delay
 

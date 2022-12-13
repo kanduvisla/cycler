@@ -18,7 +18,8 @@ typedef uint8_t byte;
 #define CYCLER_MODE_DUAL_3 8
 #define CYCLER_MODE_TRIPLE_1 9
 #define CYCLER_MODE_TRIPLE_2 10
+#define CYCLER_MODE_BERSERK 11
 
-#define CYCLER_MODE_MAX 11  // used to check the last mode
+#define CYCLER_MODE_MAX 12  // used to check the last mode
 
 #endif
